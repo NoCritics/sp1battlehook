@@ -43,3 +43,8 @@ pids
 .cache/
 coverage/
 .nyc_output/ 
+
+# Deployment
+deploy-keys/
+*.pem
+*.key 

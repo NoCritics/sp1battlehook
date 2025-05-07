@@ -1,0 +1,25 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          
+      - name: Add server to known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H 193.233.253.236 >> ~/.ssh/known_hosts
+          
+      - name: Deploy to server
+        run: |
+          rsync -avz --delete ./ root@193.233.253.236:/var/www/html/sp1game/ 
