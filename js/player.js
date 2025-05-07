@@ -21,7 +21,7 @@ class Player {
         this.shieldWidth = this.radius * 1.5;
         this.shieldThickness = this.radius * 0.4;
         this.shieldCharge = 0;
-        this.maxShieldCharge = 10;
+        this.maxShieldCharge = 6;
         
         // Invulnerability
         this.isInvulnerable = false;
