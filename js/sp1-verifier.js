@@ -1,11 +1,17 @@
 // SP1 Score Verification Integration
 
+// API endpoints with specific port
+const API_BASE_URL = 'http://193.233.253.236:3000';
+const API_PROVE_URL = `${API_BASE_URL}/api/prove`;
+const API_STATUS_URL = `${API_BASE_URL}/api/proof-status`;
+const PROOFS_URL = `${API_BASE_URL}/proofs`;
+
 // Simple score verification - just submits the final score value
 async function submitScoreForVerification(score) {
     const verificationStatus = document.getElementById('verification-status');
     
     try {
-        const response = await fetch('/api/prove', {
+        const response = await fetch(API_PROVE_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -54,7 +60,7 @@ async function submitScoreForVerification(score) {
 
 async function pollVerificationStatus(jobId, statusElement) {
     try {
-        const response = await fetch(`/api/proof-status/${jobId}`);
+        const response = await fetch(`${API_STATUS_URL}/${jobId}`);
         
         if (!response.ok) {
             throw new Error(`Server returned ${response.status}: ${response.statusText}`);
@@ -79,7 +85,7 @@ async function pollVerificationStatus(jobId, statusElement) {
                     <div class="verification-success">
                         <p>🎉 Score Verified! </p>
                         <p>Your final score of ${result.public_values ? result.public_values.split(',')[0].split(':')[1].trim() : result.score} has been cryptographically verified.</p>
-                        <p><a href="/proofs/${result.proof}" target="_blank" class="download-proof">Download Proof</a></p>
+                        <p><a href="${PROOFS_URL}/${result.proof}" target="_blank" class="download-proof">Download Proof</a></p>
                     </div>
                 `;
                 break;
