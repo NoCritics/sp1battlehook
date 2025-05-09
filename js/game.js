@@ -395,9 +395,41 @@ class Game {
             document.getElementById('new-high-score').classList.add('hidden');
         }
         
+        // Create and add verify score button if not already present
+        if (!document.getElementById('verify-score-button')) {
+            const verifyButton = document.createElement('button');
+            verifyButton.id = 'verify-score-button';
+            verifyButton.textContent = 'Verify Score with SP1';
+            verifyButton.className = 'verify-button';
+            verifyButton.addEventListener('click', () => this.verifyScore());
+            
+            const verificationStatus = document.createElement('div');
+            verificationStatus.id = 'verification-status';
+            verificationStatus.className = 'hidden';
+            
+            // Insert buttons into game-over div
+            const gameOverElement = document.getElementById('game-over');
+            gameOverElement.appendChild(verifyButton);
+            gameOverElement.appendChild(verificationStatus);
+        }
+        
         // Show game over screen
         document.getElementById('final-score').textContent = `Final Score: ${this.score}`;
         document.getElementById('game-over').classList.remove('hidden');
+    }
+
+    // New method to verify score with SP1
+    verifyScore() {
+        // Show verification status
+        const verificationStatus = document.getElementById('verification-status');
+        verificationStatus.textContent = 'Preparing verification...';
+        verificationStatus.classList.remove('hidden');
+        
+        // Hide verify button to prevent multiple clicks
+        document.getElementById('verify-score-button').classList.add('hidden');
+        
+        // Submit the final score for verification
+        submitScoreForVerification(this.score);
     }
 
     restart() {
